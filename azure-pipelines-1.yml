@@ -1,0 +1,61 @@
+trigger: none
+
+pool:
+  name: Bravo
+
+stages:
+# Stage 1: Terraform Install
+- stage: Install
+  displayName: 'Install Terraform'
+  jobs:
+  - job: InstallTerraform
+    steps:
+    - task: TerraformInstaller@1
+      displayName: 'Install Terraform'
+      inputs:
+        terraformVersion: 'latest'
+
+# Stage 2: Terraform Init
+- stage: Init
+  displayName: 'Terraform Init'
+  dependsOn: Install
+  jobs:
+  - job: InitJob
+    steps:
+    - task: TerraformTaskV4@4
+      displayName: 'Terraform Init'
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: 'Yaml-pipeline'
+        backendAzureRmResourceGroupName: 'testrg'
+        backendAzureRmStorageAccountName: 'checking3'
+        backendAzureRmContainerName: 'rakho'
+        backendAzureRmKey: 'dev.tfstate'
+
+# Stage 3: Terraform Validate
+- stage: Validate
+  displayName: 'Terraform Validate'
+  dependsOn: Init
+  jobs:
+  - job: ValidateJob
+    steps:
+    - task: TerraformTaskV4@4
+      displayName: 'Terraform Validate'
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+
+# Stage 4: Terraform Plan
+- stage: Plan
+  displayName: 'Terraform Plan'
+  dependsOn: Validate
+  jobs:
+  - job: PlanJob
+    steps:
+    - task: TerraformTaskV4@4
+      displayName: 'Terraform Plan'
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        environmentServiceNameAzureRM: 'Yaml-pipeline'
