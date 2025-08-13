@@ -1,0 +1,43 @@
+trigger: none
+
+pool: 
+  name:Bravo
+
+steps:
+- task: TerraformInstaller@1
+  displayName: terraform_installwa
+  inputs:
+    terraformVersion: 'latest'
+
+- task: TerraformTask@5
+  displayName: initwa
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: 'Yaml-pipeline'
+    backendAzureRmResourceGroupName: 'testrg'
+    backendAzureRmStorageAccountName: 'checking3'
+    backendAzureRmContainerName: 'rakho'
+    backendAzureRmKey: 'dev.tfstate'
+
+- task: TerraformTask@5
+  displayName: validatewa
+  inputs:
+    provider: 'azurerm'
+    command: 'validate'
+
+- task: TerraformTask@5
+  displayName: fmtwa
+  inputs:
+    provider: 'azurerm'
+    command: 'custom'
+    outputTo: 'console'
+    customCommand: 'terraform fmt'
+    environmentServiceNameAzureRM: 'Yaml-pipeline'
+
+- task: TerraformTask@5
+  displayName: planwa
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    environmentServiceNameAzureRM: 'Yaml-pipeline'
