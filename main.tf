@@ -6,6 +6,8 @@ terraform {
     }
   }
   backend "cool" {
+    storage_account_name = "checking3"
+    container_name       = "rakho"
     
   }
 }
