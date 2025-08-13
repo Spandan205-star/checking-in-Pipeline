@@ -27,14 +27,6 @@ steps:
     command: 'validate'
 
 - task: TerraformTask@5
-  displayName: fmtwa
-  inputs:
-    provider: 'azurerm'
-    command: 'custom'
-    customCommand: 'terraform fmt'
-   
-
-- task: TerraformTask@5
   displayName: planwa
   inputs:
     provider: 'azurerm'
