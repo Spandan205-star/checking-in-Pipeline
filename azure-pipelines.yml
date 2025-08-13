@@ -1,7 +1,7 @@
 trigger: none
 
 pool: 
-  name:Bravo
+  name: Bravo
 
 steps:
 - task: TerraformInstaller@1
