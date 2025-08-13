@@ -5,7 +5,7 @@ terraform {
       version = "4.39.0"
     }
   }
-  backend "cool" {
+  backend "azurerm" {
     storage_account_name = "checking3"
     container_name       = "rakho"
     
