@@ -31,9 +31,8 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'custom'
-    outputTo: 'console'
     customCommand: 'terraform fmt'
-    environmentServiceNameAzureRM: 'Yaml-pipeline'
+   
 
 - task: TerraformTask@5
   displayName: planwa
