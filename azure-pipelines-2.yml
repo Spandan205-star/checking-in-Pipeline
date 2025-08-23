@@ -1,5 +1,8 @@
 trigger:  none
 
+pool: 
+ name: Bravo
+
 stages:
   - stage: terraform_install
     jobs:
@@ -8,7 +11,9 @@ stages:
         - task: TerraformInstaller@1
           inputs:
             terraformVersion: 'latest'
-  
+
+      - job: terraform_init_hoga
+        steps:
         - task: TerraformTask@5
           inputs:
             provider: 'azurerm'
@@ -19,7 +24,8 @@ stages:
             backendAzureRmStorageAccountName: 'coolss'
             backendAzureRmContainerName: 'tfstate'
             backendAzureRmKey: 'terraform.tfstate'
-
+      - job: terraform_plan_hoga
+        steps:
         - task: TerraformTask@5
           inputs:
             provider: 'azurerm'
